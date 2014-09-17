@@ -1,0 +1,23 @@
+[user]
+	name = Shen-Ta Hsieh
+	email = ibmibmibm.tw@gmail.com
+[core]
+	editor = vim
+[color]
+	ui = auto
+	diff = auto
+	status = auto
+	branch = auto
+	log = auto
+[alias]
+	aa = add -A
+	br = branch
+	c-p = cherry-pick
+	ci = commit
+	co = checkout
+	dc = diff --cached
+	df = diff
+	la = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	st = status
+[push]
+	default = simple
