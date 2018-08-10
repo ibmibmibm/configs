@@ -1,101 +1,23 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
+#
+# ~/.bashrc
+#
 
 # If not running interactively, don't do anything
-case $- in
-    *i*) ;;
-      *) return;;
-esac
+[[ $- != *i* ]] && return
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
-HISTCONTROL=ignoreboth
+alias ls='ls --color=auto'
+PS1='[\u@\h \W]\$ '
+[ "$TERM" = "xterm" ] && export TERM="xterm-256color"
+export EDITOR="vim"
+export PATH="$HOME/.local/bin${PATH:+:${PATH}}"
+export PERL5LIB="$HOME/.local/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
+export PERL_LOCAL_LIB_ROOT="$HOME/.local${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
+export PERL_MB_OPT="--install_base \"/home/beststeve/.local\""
+export PERL_MM_OPT="INSTALL_BASE=/home/beststeve/.local"
+export GOPATH=$HOME/gocode
+export PYTHONPATH=$HOME/.vim/bundle/repos/github.com/powerline/powerline
+export PARALLEL_SHELL=/bin/bash
+export GPG_TTY=$(tty)
 
-# append to the history file, don't overwrite it
-shopt -s histappend
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
-shopt -s globstar
-
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-if [ -f ~/.bash_aliases ]; then
-  . ~/.bash_aliases
-fi
-
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
-
-_main() {
-  local SOURCE="${BASH_SOURCE[0]}"
-  local DIR=""
-  # resolve $SOURCE until the file is no longer a symlink
-  while [[ -h "$SOURCE" ]]; do
-    DIR="$( cd -P "$(dirname "$SOURCE")" && pwd )"
-    SOURCE="$(readlink "$SOURCE")"
-    # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
-    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
-  done
-  local DIR="$(dirname "$SOURCE")"
-
-  export TERM=screen-256color
-  export VIRTUAL_ENV_DISABLE_PROMPT=1
-  export EDITOR=/usr/bin/vim
-  export OSFONTDIR=$DIR/.fonts:/usr/share/fonts:/usr/share/texmf/fonts/opentype/
-  export POWERLINE_COMMAND="$DIR/.vim/bundle/powerline/scripts/powerline-render"
-  export POWERLINE_CONFIG_COMMAND="$DIR/.vim/bundle/powerline/scripts/powerline-config"
-  export PATH=$PATH:$DIR/.tmuxifier/bin:$DIR/.local/bin
-  export LD_LIBRARY_PATH=$DIR/.local/lib
-  export LIBRARY_PATH=$DIR/.local/lib
-  export CPATH=$DIR/.local/include
-  export GOPATH=$DIR/.local
-  export GIT_AUTHOR_NAME=sthsieh
-  export GIT_AUTHOR_EMAIL=sthsieh@synology.com
-  [[ -s $DIR/.autojump/etc/profile.d/autojump.sh ]] && source $DIR/.autojump/etc/profile.d/autojump.sh
-  source $DIR/.vim/bundle/powerline/powerline/bindings/bash/powerline.sh
-}
-_main
+$HOME/.vim/bundle/repos/github.com/powerline/powerline/scripts/powerline-daemon -q
 exec fish
