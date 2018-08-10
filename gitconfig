@@ -1,14 +1,10 @@
 [user]
 	name = Shen-Ta Hsieh
 	email = ibmibmibm.tw@gmail.com
+	signingkey = 6D80567E1D3C769A7822599286B2250DBAC0ABC0
 [core]
 	editor = vim
-[color]
-	ui = auto
-	diff = auto
-	status = auto
-	branch = auto
-	log = auto
+	commitGraph = true
 [alias]
 	aa = add -A
 	br = branch
@@ -17,7 +13,14 @@
 	co = checkout
 	dc = diff --cached
 	df = diff
-	la = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	la = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
 	st = status
 [push]
 	default = simple
+[commit]
+	gpgsign = true
+[sendemail]
+	smtpServer = smtp.gmail.com
+	smtpEncryption = tls
+	smtpServerPort = 587
+	smtpUser = ibmibmibm.tw
